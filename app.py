@@ -2,28 +2,24 @@ import streamlit as st
 import pandas as pd
 from sqlalchemy import create_engine
 import os
-from dotenv import load_dotenv
 from streamlit_extras.grid import grid
 import openai
 import plotly.express as px
+import toml
 
-
-
-
-
-# Carregar as variáveis do arquivo .env
-load_dotenv()
+# Carrega o arquivo config.toml
+config = toml.load("config.toml")
 
 # Define a página para usar a largura total
 st.set_page_config(layout="wide")
 
 # Configurações do banco de dados a partir das variáveis de ambiente
-user = os.getenv('DB_USER')
-password = os.getenv('DB_PASSWORD')
-host = os.getenv('DB_HOST')
-database = os.getenv('DB_DATABASE')
-schema = os.getenv('DB_SCHEMA')
-table_name = os.getenv('DB_TABLE')
+user = config["database"]['DB_USER']
+password = config["database"]['DB_PASSWORD']
+host = config["database"]['DB_HOST']
+database = config["database"]['DB_DATABASE']
+schema = config["database"]['DB_SCHEMA']
+table_name = config["database"]['DB_TABLE']
 
 # Criação da string de conexão
 connection_string = f"mysql+mysqlconnector://{user}:{password}@{host}/{database}"
@@ -148,7 +144,7 @@ def plotar_grafico_media_publico():
 
 
 # Configura sua chave da API
-openai.api_key = os.getenv('OPENAI_API_KEY')
+openai.api_key = config["database"]['OPENAI_API_KEY']
 
 def consultar_openai(prompt):
     try:
