@@ -8,18 +8,18 @@ import plotly.express as px
 import toml
 
 # Carrega o arquivo config.toml
-config = toml.load("config.toml")
+secrets = toml.load(".streamlit/secrets.toml")
 
 # Define a página para usar a largura total
 st.set_page_config(layout="wide")
 
-# Configurações do banco de dados a partir das variáveis de ambiente
-user = config["database"]['DB_USER']
-password = config["database"]['DB_PASSWORD']
-host = config["database"]['DB_HOST']
-database = config["database"]['DB_DATABASE']
-schema = config["database"]['DB_SCHEMA']
-table_name = config["database"]['DB_TABLE']
+# Configurações do banco de dados a partir do arquivo .streamlit/secrets.toml
+user = st.secrets["database"]["DB_USER"]
+password = st.secrets["database"]["DB_PASSWORD"]
+host = st.secrets["database"]["DB_HOST"]
+database = st.secrets["database"]["DB_DATABASE"]
+schema = st.secrets["database"]["DB_SCHEMA"]
+table_name = st.secrets["database"]["DB_TABLE"]
 
 # Criação da string de conexão
 connection_string = f"mysql+mysqlconnector://{user}:{password}@{host}/{database}"
@@ -144,7 +144,7 @@ def plotar_grafico_media_publico():
 
 
 # Configura sua chave da API
-openai.api_key = config["database"]['OPENAI_API_KEY']
+openai.api_key = st.secrets["database"]['OPENAI_API_KEY']
 
 def consultar_openai(prompt):
     try:
