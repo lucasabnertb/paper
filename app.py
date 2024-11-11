@@ -22,7 +22,7 @@ schema = st.secrets["database"]["DB_SCHEMA"]
 table_name = st.secrets["database"]["DB_TABLE"]
 
 # Criação da string de conexão
-connection_string = f"mysql+mysqlconnector://{user}:{password}@{host}/{database}"
+connection_string = f"mysql+mysqlconnector://{user}:{password}@{host}/{database}?charset=utf8mb4"
 engine = create_engine(connection_string)
 
 # Consulta para obter dados de campeões e anos
